@@ -1,6 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 
+const Cart = require('./cart');
+
 const rootDir = require('../utilities/path');
 const p = path.join(rootDir, 'data', 'products.json');
 
@@ -29,20 +31,32 @@ module.exports = class Product {
         const existingProductIndex = products.findIndex(
           (prod) => prod.id === this.id
         );
-        console.log(existingProductIndex);
-        const updatedProducts = { ...products };
+        const updatedProducts = [...products];
         updatedProducts[existingProductIndex] = this;
-        console.log('updated: ', updatedProducts);
         fs.writeFile(p, JSON.stringify(updatedProducts), (err) => {
-          console.log('Old Product writeFile Error: ', err);
+          console.log('old Product err saving: ', err);
         });
       } else {
         this.id = Math.random().toString();
         products.push(this);
         fs.writeFile(p, JSON.stringify(products), (err) => {
-          console.log('new product writeFile Error: ', err);
+          console.log('new Product err saving: ', err);
         });
       }
+    });
+  }
+
+  static deleteById(id) {
+    getProductsFromFile((products) => {
+      const product = products.find((prod) => prod.id === id);
+      const updatedProducts = products.filter((prod) => prod.id !== id);
+      fs.writeFile(p, JSON.stringify(updatedProducts), (err) => {
+        if (!err) {
+          Cart.deleteProduct(id, product.price);
+        } else {
+          console.log('delete By Id err: ', err);
+        }
+      });
     });
   }
 
