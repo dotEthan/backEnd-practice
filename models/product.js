@@ -5,25 +5,25 @@ const Schema = mongoose.Schema;
 const productSchema = new Schema({
   title: {
     type: String,
-    require: true,
+    required: true
   },
   price: {
     type: Number,
-    require: true,
+    required: true
   },
   description: {
     type: String,
-    require: true,
+    required: true
   },
   imageUrl: {
     type: String,
-    require: true,
+    required: true
   },
   userId: {
     type: Schema.Types.ObjectId,
     ref: 'User',
-    required: true,
-  },
+    required: true
+  }
 });
 
 module.exports = mongoose.model('Product', productSchema);
@@ -31,19 +31,7 @@ module.exports = mongoose.model('Product', productSchema);
 // const mongodb = require('mongodb');
 // const getDb = require('../util/database').getDb;
 
-// /**
-//  * Represents a product in the e-commerce system.
-//  * Handles creation and persistence of product data in MongoDB.
-//  */
-
 // class Product {
-//   /**
-//    * Creates a new Product instance.
-//    * @param {string} title - The product's title/name
-//    * @param {number} price - The product's price
-//    * @param {string} description - The product's description
-//    * @param {string} imageUrl - URL to the product's image
-//    */
 //   constructor(title, price, description, imageUrl, id, userId) {
 //     this.title = title;
 //     this.price = price;
@@ -53,16 +41,11 @@ module.exports = mongoose.model('Product', productSchema);
 //     this.userId = userId;
 //   }
 
-//   /**
-//    * Saves the product to MongoDB.
-//    * @returns {Promise<Object>} Result of inserting operation
-//    * @throws {Error} If database save fails
-//    */
 //   save() {
 //     const db = getDb();
 //     let dbOp;
-//     console.log(this._id);
 //     if (this._id) {
+//       // Update the product
 //       dbOp = db
 //         .collection('products')
 //         .updateOne({ _id: this._id }, { $set: this });
@@ -70,30 +53,27 @@ module.exports = mongoose.model('Product', productSchema);
 //       dbOp = db.collection('products').insertOne(this);
 //     }
 //     return dbOp
-//       .then((result) => {
+//       .then(result => {
 //         console.log(result);
 //       })
-//       .catch((err) => {
+//       .catch(err => {
 //         console.log(err);
 //       });
 //   }
 
-//   /**
-//    * gets all products from MongoDB.
-//    * @returns {Promise<Product[]>} Returns all Products
-//    * @throws {Error} If database call fails
-//    */
 //   static fetchAll() {
 //     const db = getDb();
 //     return db
 //       .collection('products')
 //       .find()
 //       .toArray()
-//       .then((products) => {
-//         console.log('products: ', products);
+//       .then(products => {
+//         console.log(products);
 //         return products;
 //       })
-//       .catch((err) => console.log(err));
+//       .catch(err => {
+//         console.log(err);
+//       });
 //   }
 
 //   static findById(prodId) {
@@ -101,20 +81,28 @@ module.exports = mongoose.model('Product', productSchema);
 //     return db
 //       .collection('products')
 //       .find({ _id: new mongodb.ObjectId(prodId) })
-//       .next() // gets the next (only in this case) document
-//       .then((product) => {
+//       .next()
+//       .then(product => {
+//         console.log(product);
 //         return product;
 //       })
-//       .catch((err) => console.log(err));
+//       .catch(err => {
+//         console.log(err);
+//       });
 //   }
 
-//   static deleteById(id) {
+//   static deleteById(prodId) {
 //     const db = getDb();
 //     return db
 //       .collection('products')
-//       .deleteOne({ _id: new mongodb.ObjectId(id) })
-//       .then((result) => console.log('deleted: ', result))
-//       .catch((err) => console.log(err));
+//       .deleteOne({ _id: new mongodb.ObjectId(prodId) })
+//       .then(result => {
+//         console.log('Deleted');
+//       })
+//       .catch(err => {
+//         console.log(err);
+//       });
 //   }
 // }
+
 // module.exports = Product;
